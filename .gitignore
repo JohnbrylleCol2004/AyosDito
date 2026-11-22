@@ -1,0 +1,11 @@
+node_modules/
+.next/
+.next-e2e/
+out/
+.env*
+!.env.example
+*.tsbuildinfo
+.npm-cache/
+playwright-report/
+test-results/
+.superpowers/

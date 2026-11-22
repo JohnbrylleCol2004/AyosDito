@@ -1,0 +1,45 @@
+{
+  "name": "ayosdito",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "test:e2e": "node --env-file-if-exists=.env.local node_modules/@playwright/test/cli.js test",
+    "demo:users": "node --env-file=.env.local scripts/create-demo-users.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "evidence:cleanup": "node --env-file=.env.local scripts/cleanup-evidence.mjs"
+  },
+  "dependencies": {
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.119.2",
+    "lucide-react": "1.77.0",
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "server-only": "0.0.1",
+    "sharp": "0.35.5"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.17",
+    "@playwright/test": "1.65.1",
+    "@tailwindcss/postcss": "4.3.5",
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.6",
+    "prettier": "3.10.1",
+    "tailwindcss": "4.3.5",
+    "typescript": "6.0.3"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  }
+}

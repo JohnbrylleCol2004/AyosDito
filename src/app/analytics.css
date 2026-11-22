@@ -1,0 +1,122 @@
+.analytics-panel {
+  margin-top: 25px;
+}
+.analytics-hint {
+  padding: 18px 24px 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 30px;
+  padding: 24px;
+}
+.analytics-grid h3 {
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+.analytics-grid p {
+  font-size: 12px;
+  color: var(--muted);
+}
+.analytics-zones {
+  margin: 0;
+}
+.analytics-zones div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+}
+.analytics-zones dt {
+  overflow-wrap: anywhere;
+}
+.analytics-zones dd {
+  margin: 0;
+  font-weight: 600;
+}
+.analytics-months {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  text-align: left;
+}
+.analytics-months th {
+  font-weight: 500;
+  color: var(--muted);
+  padding: 7px 10px 7px 0;
+}
+.analytics-months td {
+  width: 60%;
+  position: relative;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  padding: 7px 0;
+  white-space: nowrap;
+}
+.analytics-bar {
+  display: inline-block;
+  height: 7px;
+  background: #8ec6a4;
+  border-radius: 4px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.resolution-average {
+  grid-column: 1/-1;
+  border-top: 1px solid var(--line);
+  padding-top: 25px;
+}
+.analytics-grid .average-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--green-dark);
+  margin-bottom: 7px;
+}
+.average-value span {
+  font-size: 13px;
+  font-weight: 400;
+}
+.evidence-section {
+  padding: 22px;
+  margin-top: 24px;
+}
+.notification-bell {
+  flex-shrink: 0;
+}
+.header-right .connection {
+  display: none;
+}
+@media (max-width: 760px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 25px;
+  }
+  .resolution-average {
+    grid-column: auto;
+  }
+  .header-right {
+    gap: 9px;
+  }
+  .app-header .breadcrumb {
+    font-size: 10px;
+  }
+  .analytics-hint {
+    padding: 18px 20px 0;
+  }
+}
+@media (max-width: 360px) {
+  .app-header {
+    padding: 0 12px;
+  }
+  .language-button {
+    padding: 7px 9px;
+  }
+  .header-right {
+    gap: 7px;
+  }
+}
