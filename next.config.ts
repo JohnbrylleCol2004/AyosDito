@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const config: NextConfig = {
+  allowedDevOrigins: ["192.168.56.1", "192.168.1.4"],
   distDir: process.env.AYOSDITO_E2E === "1" ? ".next-e2e" : ".next",
   devIndicators: false,
   experimental: { serverActions: { bodySizeLimit: "16mb" } },
