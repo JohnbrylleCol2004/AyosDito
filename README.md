@@ -4,6 +4,8 @@ A bilingual barangay application built with Next.js App Router, TypeScript, Tail
 
 Features include bilingual reporting/admin tracking, private validated evidence, explicitly moderated community summaries, affected-resident confirmations, private notifications and aggregate analytics. Apply the database/configuration steps in the [Phase 4 guide](docs/phase-4.md). Earlier setup remains documented in [Phase 2](docs/phase-2.md) and [Phase 3](docs/phase-3.md).
 
+PWA support adds installable Android/Windows web-app metadata, branded icons, English/Filipino installation guidance at `/install`, and a public offline connection screen. See [installation and redeployment](docs/pwa.md). Internet is required for account/report operations; private data is not cached by the service worker.
+
 ## 1. Run locally
 
 Install Node.js **22.18 or newer** (a supported LTS version is recommended), then open PowerShell:
@@ -155,6 +157,6 @@ The private photo bucket stores server-decoded/re-encoded WebP evidence. Input i
 
 ## Deployment preparation
 
-Run `npm.cmd run release:check -- --browser` for formatting, lint, local tests, production builds, TypeScript, the full production-mode Edge suite and a known-secret client-bundle scan. See the [Phase 5 runbook](docs/phase-5.md) for environment setup, hosting upload limits, smoke checks, operations and a demo script. This workspace has not been publicly deployed; the hosting project and large-upload transport configuration still need to be established.
+Run `npm.cmd run release:check -- --browser` for formatting, lint, local tests, production builds, TypeScript, the full production-mode Edge suite and a known-secret client-bundle scan. See the [Phase 5 runbook](docs/phase-5.md) for environment setup, hosting upload limits, smoke checks, operations and a demo script. The project owner has published the website at `https://ayosdito.vercel.app`; local PWA changes require a new deployment. See the [PWA guide](docs/pwa.md) for redeployment and installation. Login, large uploads and installation on actual devices must also be checked through the public host.
 
 Official references: [Next.js Proxy](https://nextjs.org/docs/app/getting-started/proxy), [Supabase SSR clients](https://supabase.com/docs/guides/auth/server-side/creating-a-client), [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).

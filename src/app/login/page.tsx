@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { ShieldCheck, Sprout, Users } from "lucide-react";
 import { Brand } from "@/components/brand";
 import { LanguageSwitch } from "@/components/language-switch";
@@ -55,7 +56,11 @@ export default async function LoginPage() {
             </div>
           </div>
         </div>
-        <footer className="login-footer">AyosDito · {t.privacy}</footer>
+        <footer className="login-footer">
+          AyosDito · {t.privacy}
+          <br />
+          <Link href="/install">{t.pwa.link}</Link>
+        </footer>
       </section>
     </main>
   );

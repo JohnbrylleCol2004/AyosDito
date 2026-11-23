@@ -3,8 +3,10 @@ import { enAdmin, filAdmin } from "./admin.ts";
 import { enEvidence, filEvidence } from "./evidence.ts";
 import { enEngagement, filEngagement } from "./engagement.ts";
 import { enAnalytics, filAnalytics } from "./analytics.ts";
+import { enPwa, filPwa } from "./pwa.ts";
 
 export const en = {
+  pwa: enPwa,
   analytics: enAnalytics,
   evidence: enEvidence,
   engagement: enEngagement,
@@ -95,24 +97,27 @@ export const en = {
 };
 
 type Dictionary = {
-  [K in keyof typeof en]: K extends "analytics"
-    ? typeof filAnalytics
-    : K extends "evidence"
-      ? typeof filEvidence
-      : K extends "engagement"
-        ? typeof filEngagement
-        : K extends "adminReports"
-          ? typeof filAdmin
-          : K extends "reports"
-            ? typeof filReports
-            : K extends "errors"
-              ? Record<keyof typeof en.errors, string>
-              : K extends "setupSteps"
-                ? string[]
-                : string;
+  [K in keyof typeof en]: K extends "pwa"
+    ? typeof filPwa
+    : K extends "analytics"
+      ? typeof filAnalytics
+      : K extends "evidence"
+        ? typeof filEvidence
+        : K extends "engagement"
+          ? typeof filEngagement
+          : K extends "adminReports"
+            ? typeof filAdmin
+            : K extends "reports"
+              ? typeof filReports
+              : K extends "errors"
+                ? Record<keyof typeof en.errors, string>
+                : K extends "setupSteps"
+                  ? string[]
+                  : string;
 };
 
 export const fil: Dictionary = {
+  pwa: filPwa,
   analytics: filAnalytics,
   evidence: filEvidence,
   engagement: filEngagement,

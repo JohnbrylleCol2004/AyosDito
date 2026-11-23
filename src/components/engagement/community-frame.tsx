@@ -23,7 +23,10 @@ export async function CommunityFrame({
         <Link href="/" aria-label="AyosDito">
           <Brand />
         </Link>
-        <LanguageSwitch locale={locale} t={t} />
+        <div className="pwa-public-actions">
+          <Link href="/install">{t.pwa.link}</Link>
+          <LanguageSwitch locale={locale} t={t} />
+        </div>
       </header>
       <main id="main-content">{children}</main>
     </div>

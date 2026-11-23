@@ -6,6 +6,7 @@ import {
   ClipboardList,
   Plus,
   Users,
+  Download,
 } from "lucide-react";
 import Link from "next/link";
 import { Brand } from "./brand";
@@ -98,6 +99,10 @@ export async function AppShell({
               </Link>
             </>
           )}
+          <Link className="nav-link" href="/install">
+            <Download size={18} />
+            {t.pwa.link}
+          </Link>
         </nav>
         <div className="sidebar-bottom">
           <div className="sidebar-note">
