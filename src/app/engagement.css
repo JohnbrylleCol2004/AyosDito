@@ -1,13 +1,13 @@
 .public-community {
   min-height: 100vh;
-  background: var(--background, #f6f7f9);
+  background: var(--paper);
 }
 .public-community-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 24px 5%;
-  border-bottom: 1px solid var(--border, #e1e6e3);
+  border-bottom: 1px solid var(--line);
   background: white;
 }
 .public-community main {
@@ -17,9 +17,10 @@
 }
 .community-privacy {
   padding: 16px 20px;
-  border-left: 3px solid var(--green, #20856b);
-  background: #edf5f0;
-  color: #435e53;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--tint);
+  color: var(--muted);
   margin: 24px 0;
   line-height: 1.65;
 }
@@ -156,14 +157,15 @@
 }
 .notification-inbox time {
   font-size: 0.8rem;
-  color: #64746b;
+  color: var(--muted);
 }
 .notification-inbox .engagement-actions {
   margin-top: 20px;
   justify-content: flex-start;
 }
 .notification-inbox .is-unread {
-  border-left: 3px solid #20856b;
+  border-color: var(--green);
+  background: var(--tint);
 }
 @media (max-width: 1100px) {
   .community-filters {

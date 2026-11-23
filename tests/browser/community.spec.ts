@@ -132,6 +132,17 @@ test("Phase 4 evidence, moderated summaries, confirmations and private notificat
     observerId = created.data.user!.id;
     expect(
       (
+        await admin.rpc("review_resident", {
+          p_user_id: observerId,
+          p_approved: true,
+          p_note:
+            "Approved temporary resident for the community integration test.",
+        })
+      ).error,
+      "Apply migration010 and approve the temporary resident before testing community access.",
+    ).toBeNull();
+    expect(
+      (
         await observer.auth.signInWithPassword({
           email: observerEmail,
           password: observerPassword,

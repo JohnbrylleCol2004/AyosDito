@@ -24,7 +24,7 @@
   width: 100%;
   min-height: 48px;
   padding: 11px 13px;
-  border: 1px solid #cfdad2;
+  border: 1px solid var(--control-line);
   border-radius: 9px;
   font: inherit;
   color: var(--ink);
@@ -36,7 +36,7 @@
 }
 .field select:focus-visible,
 .field textarea:focus-visible {
-  outline: 3px solid #2c976b;
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
 }
 .field select[aria-invalid="true"],
@@ -153,13 +153,13 @@
   display: inline-flex;
   gap: 6px;
   align-items: center;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   padding: 4px 9px;
   border-radius: 6px;
   line-height: 1.6;
-  background: #fcf3df;
-  color: #805e1e;
+  background: var(--pending-surface);
+  color: var(--pending-ink);
   max-width: 100%;
 }
 .report-status > span {
@@ -170,16 +170,16 @@
   flex-shrink: 0;
 }
 .report-status.in_progress {
-  background: #eaf2fa;
-  color: #2f628b;
+  background: var(--progress-surface);
+  color: var(--progress-ink);
 }
 .report-status.resolved {
-  background: #e9f5ee;
-  color: #26724d;
+  background: var(--resolved-surface);
+  color: var(--resolved-ink);
 }
 .report-status.rejected {
-  background: #f9eeec;
-  color: #97514b;
+  background: var(--rejected-surface);
+  color: var(--rejected-ink);
 }
 .report-card h3 {
   font-size: 16px;

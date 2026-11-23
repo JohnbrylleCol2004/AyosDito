@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { OperationsPanel } from "@/components/operations";
+import { ReportLocation } from "@/components/maps/report-location";
 import { notFound, redirect } from "next/navigation";
 import { requireProfile } from "@/lib/auth/session";
 import { getLanguage } from "@/lib/i18n/server";
@@ -178,6 +180,8 @@ export default async function AdminReportPage({
         page={parseReportFilters({ page: search.photos }).page}
       />
       <ModerationPanel reportId={id} status={report.status} />
+      <OperationsPanel reportId={id} admin />
+      <ReportLocation reportId={id} admin />
     </AppShell>
   );
 }

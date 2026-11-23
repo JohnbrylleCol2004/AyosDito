@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OperationsSummary } from "@/components/operations";
 import {
   ClipboardList,
   Clock3,
@@ -33,7 +34,6 @@ export async function AdminDashboard({ profile }: { profile: Profile }) {
   return (
     <AppShell profile={profile}>
       <div className="page-heading">
-        <div className="eyebrow">{a.phase}</div>
         <h1>{a.dashboard}</h1>
         <p>{a.intro}</p>
         <div className="dashboard-actions">
@@ -45,6 +45,7 @@ export async function AdminDashboard({ profile }: { profile: Profile }) {
           </Link>
         </div>
       </div>
+      <OperationsSummary />
       {!data.stats && (
         <p className="error-banner" role="alert">
           {a.migrationError}

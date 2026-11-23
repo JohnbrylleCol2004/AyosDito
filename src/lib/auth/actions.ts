@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfig } from "@/lib/supabase/config";
 import { homeForRole, parseCredentials } from "./rules";
+import { homeForProfile } from "./accounts";
 
 export type LoginState = {
   error?: "email" | "password" | "credentials" | "connection" | "profile";
@@ -28,10 +29,15 @@ export async function signIn(
       };
     const { data: profile } = await supabase
       .from("profiles")
-      .select("role")
+      .select("role, approval_status")
       .eq("id", data.user.id)
       .single();
-    destination = homeForRole(profile?.role);
+    destination =
+      profile &&
+      homeForRole(profile.role) &&
+      ["pending", "approved", "rejected"].includes(profile.approval_status)
+        ? homeForProfile(profile)
+        : null;
     if (!destination) {
       await supabase.auth.signOut({ scope: "local" });
       return { error: "profile" };

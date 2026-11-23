@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { OperationsPanel } from "@/components/operations";
+import { ReportLocation } from "@/components/maps/report-location";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { requireProfile } from "@/lib/auth/session";
@@ -156,6 +158,8 @@ export default async function ReportDetailsPage({
         status={report.status}
         page={parseReportFilters({ page: search.photos }).page}
       />
+      <OperationsPanel reportId={id} admin={false} />
+      <ReportLocation reportId={id} admin={false} />
     </AppShell>
   );
 }

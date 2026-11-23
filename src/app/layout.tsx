@@ -9,6 +9,7 @@ import "./evidence.css";
 import "./engagement.css";
 import "./analytics.css";
 import "./pwa.css";
+import "./refinements.css";
 
 export const metadata: Metadata = {
   applicationName: "AyosDito",

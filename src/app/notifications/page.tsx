@@ -5,6 +5,7 @@ import { getLanguage } from "@/lib/i18n/server";
 import { getNotifications } from "@/lib/queries/engagement";
 import { AppShell } from "@/components/app-shell";
 import { ReadButton } from "@/components/engagement/read-button";
+import { PushSettings } from "@/components/pwa/push-settings";
 export default async function NotificationsPage({
   searchParams,
 }: {
@@ -25,6 +26,10 @@ export default async function NotificationsPage({
   const pages = Math.max(1, Math.ceil(result.total / 12));
   return (
     <AppShell profile={profile} section="notifications">
+      <PushSettings
+        publicKey={process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ?? null}
+        locale={locale}
+      />
       <div className="report-page-heading">
         <div className="page-heading">
           <h1>{e.notifications}</h1>

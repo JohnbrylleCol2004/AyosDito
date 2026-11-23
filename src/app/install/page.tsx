@@ -51,7 +51,6 @@ export default async function InstallPage() {
             className="pwa-app-icon"
             priority
           />
-          <div className="eyebrow">{p.eyebrow}</div>
           <h1 id="pwa-title">{p.title}</h1>
           <p className="pwa-lead">{p.intro}</p>
           <InstallControl />

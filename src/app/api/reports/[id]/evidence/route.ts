@@ -48,6 +48,8 @@ export async function POST(
     return Response.json({ error: "csrf" }, { status: 403 });
   const profile = await currentProfile();
   if (!profile) return Response.json({ error: "permission" }, { status: 401 });
+  if (profile.approval_status !== "approved")
+    return Response.json({ error: "permission" }, { status: 403 });
   const { id } = await params;
   if (!isUuid(id))
     return Response.json({ error: "permission" }, { status: 404 });

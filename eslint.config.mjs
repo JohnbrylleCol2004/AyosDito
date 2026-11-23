@@ -5,6 +5,7 @@ export default defineConfig([
   ...nextVitals,
   ...nextTs,
   globalIgnores([
+    ".superpowers/**",
     ".next/**",
     ".next-e2e/**",
     "next-env.d.ts",

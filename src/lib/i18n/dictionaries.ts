@@ -18,7 +18,7 @@ export const en = {
   intro:
     "A shared space for residents and barangay officials to keep community concerns moving forward.",
   welcome: "Welcome to AyosDito",
-  loginIntro: "Sign in with the demo account provided by your administrator.",
+  loginIntro: "Sign in with your approved resident or administrator account.",
   email: "Email address",
   password: "Password",
   signIn: "Sign in",
@@ -130,7 +130,7 @@ export const fil: Dictionary = {
     "Isang lugar para sa mga residente at opisyal upang matutukan ang mga suliranin ng komunidad.",
   welcome: "Maligayang pagdating sa AyosDito",
   loginIntro:
-    "Mag-sign in gamit ang demo account na ibinigay ng inyong administrator.",
+    "Mag-sign in gamit ang approved resident o administrator account mo.",
   email: "Email address",
   password: "Password",
   signIn: "Mag-sign in",

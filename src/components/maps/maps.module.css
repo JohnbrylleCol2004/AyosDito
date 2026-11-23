@@ -1,0 +1,31 @@
+.map {
+  height: 380px;
+  width: 100%;
+  border: 1px solid var(--line, #bcc9be);
+  border-radius: 12px;
+  isolation: isolate;
+  z-index: 0;
+}
+.frame {
+  display: grid;
+  gap: 1rem;
+}
+.controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.list {
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+@media (max-width: 600px) {
+  .map {
+    height: 300px;
+  }
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}

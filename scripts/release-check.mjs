@@ -56,6 +56,8 @@ function scan(dir) {
         "SUPABASE_SECRET_KEY",
         "DEMO_RESIDENT_PASSWORD",
         "DEMO_ADMIN_PASSWORD",
+        "VAPID_PRIVATE_KEY",
+        "PUSH_CRON_SECRET",
       ]) {
         if (process.env[name] && content.includes(process.env[name])) {
           console.error(
