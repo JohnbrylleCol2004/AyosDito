@@ -1,6 +1,6 @@
 # AyosDito
 
-A bilingual barangay application built with Next.js App Router, TypeScript, Tailwind CSS and Supabase. **Phase 4 community features extend the Phase 1–3 foundation.**
+A bilingual barangay application built with Next.js App Router, TypeScript, Tailwind CSS and Supabase. **Phase 5 adds release verification and deployment preparation to the Phase 1–4 application.**
 
 Features include bilingual reporting/admin tracking, private validated evidence, explicitly moderated community summaries, affected-resident confirmations, private notifications and aggregate analytics. Apply the database/configuration steps in the [Phase 4 guide](docs/phase-4.md). Earlier setup remains documented in [Phase 2](docs/phase-2.md) and [Phase 3](docs/phase-3.md).
 
@@ -106,7 +106,7 @@ Run browser tests with Microsoft Edge installed:
 npm.cmd run test:e2e
 ```
 
-The command loads `.env.local` and starts an isolated test server on port 3100 (override with `E2E_PORT`); stop another test server on that port first. Your normal development server on port 3000 can remain open because tests use `.next-e2e`. With demo credentials and all migrations, it verifies resident/admin authentication, resident reporting and official decisions. A complete suite creates four clearly labeled fictional reports: one resident report and three admin lifecycle/conflict fixtures. Tests requiring missing credentials are explicitly skipped. See [Phase 3 testing details](docs/phase-3.md). If Edge is unavailable, install it or select another installed browser in Playwright configuration.
+The command loads `.env.local` and starts an isolated test server on port 3100 (override with `E2E_PORT`); stop another test server on that port first. Your normal development server on port 3000 can remain open because tests use `.next-e2e`. With demo credentials and all migrations, it verifies resident/admin authentication, reporting, official decisions and Phase 4 workflows. A complete suite leaves five labeled fictional reports: one resident report, three admin lifecycle/conflict fixtures and one private evidence/community fixture. Its temporary second resident and temporary inbox report are removed; the community fixture is unpublished. Tests requiring missing credentials are explicitly skipped. See [Phase 3 testing details](docs/phase-3.md) and [Phase 5 release checks](docs/phase-5.md). If Edge is unavailable, install it or select another installed browser in Playwright configuration.
 
 For a hosted PostgreSQL check, run `supabase/tests/rls.sql` in the SQL Editor **of a test project** after applying the migration. Fictional fixtures are created inside a transaction and rolled back. If an assertion fails, roll back the failed transaction before continuing. Local SQL tests do not replace this hosted verification.
 
@@ -155,6 +155,6 @@ The private photo bucket stores server-decoded/re-encoded WebP evidence. Input i
 
 ## Deployment preparation
 
-Deployment belongs to Phase 5. The host must support the configured multipart upload size and server-only evidence key; review [Phase 4 limitations](docs/phase-4.md) before choosing the upload deployment transport. This workspace has not been deployed. Phase 5 requires your approval.
+Run `npm.cmd run release:check -- --browser` for formatting, lint, local tests, production builds, TypeScript, the full production-mode Edge suite and a known-secret client-bundle scan. See the [Phase 5 runbook](docs/phase-5.md) for environment setup, hosting upload limits, smoke checks, operations and a demo script. This workspace has not been publicly deployed; the hosting project and large-upload transport configuration still need to be established.
 
 Official references: [Next.js Proxy](https://nextjs.org/docs/app/getting-started/proxy), [Supabase SSR clients](https://supabase.com/docs/guides/auth/server-side/creating-a-client), [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).

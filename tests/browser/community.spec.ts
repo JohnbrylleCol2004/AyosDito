@@ -21,6 +21,13 @@ test("photo controls preview, remove and reject unsupported files before saving"
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
   await page.goto("/reports/new");
+  const serverHtml = await page.request.get("/reports/new");
+  expect(await serverHtml.text()).toMatch(
+    /<input[^>]*type="file"[^>]*disabled/,
+  );
+  await expect(
+    page.getByLabel("Add photos (optional)", { exact: true }),
+  ).toBeEnabled();
   const png = await sharp({
     create: { width: 10, height: 10, channels: 3, background: "green" },
   })
@@ -150,6 +157,9 @@ test("Phase 4 evidence, moderated summaries, confirmations and private notificat
     await login(page, email!, password!);
     await expect(page).toHaveURL(/\/dashboard$/);
     await page.goto("/reports/new");
+    await expect(
+      page.getByLabel("Add photos (optional)", { exact: true }),
+    ).toBeEnabled();
     await page
       .getByLabel("Add photos (optional)", { exact: true })
       .setInputFiles({
@@ -461,6 +471,19 @@ test("Phase 4 evidence, moderated summaries, confirmations and private notificat
     await expect(
       page.getByRole("button", { name: "Upload photos", exact: true }),
     ).toHaveCount(0);
+    // Scroll lazy images into view and prove that the browser decoded the private
+    // signed responses; counting image elements alone would miss broken links.
+    for (const photo of await page.locator(".evidence-gallery img").all()) {
+      await photo.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() =>
+          photo.evaluate(
+            (image: HTMLImageElement) =>
+              image.complete && image.naturalWidth > 0,
+          ),
+        )
+        .toBe(true);
+    }
     await page.screenshot({
       path: "test-results/evidence-private-mobile.png",
       fullPage: true,
@@ -520,14 +543,16 @@ test("Phase 4 evidence, moderated summaries, confirmations and private notificat
     await observerPage
       .getByRole("button", { name: "Mark all as read", exact: true })
       .click();
-    expect(
-      (
-        await observer
+    await expect
+      .poll(async () => {
+        const result = await observer
           .from("notifications")
           .select("id", { count: "exact", head: true })
-          .eq("is_read", false)
-      ).count,
-    ).toBe(0);
+          .eq("is_read", false);
+        expect(result.error).toBeNull();
+        return result.count;
+      })
+      .toBe(0);
     const stats = await admin.rpc("admin_community_analytics");
     expect(stats.error).toBeNull();
     expect(stats.data.months).toHaveLength(12);

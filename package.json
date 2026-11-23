@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "test:e2e": "node --env-file-if-exists=.env.local node_modules/@playwright/test/cli.js test",
+    "release:check": "node scripts/release-check.mjs",
     "demo:users": "node --env-file=.env.local scripts/create-demo-users.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

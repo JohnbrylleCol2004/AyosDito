@@ -26,9 +26,9 @@ export default defineConfig({
   ],
   webServer: {
     env: { AYOSDITO_E2E: "1" },
-    command: `node node_modules/next/dist/bin/next dev --hostname 127.0.0.1 --port ${port}`,
+    command: "node scripts/e2e-server.mjs",
     url: baseURL,
     reuseExistingServer: false,
-    timeout: 120_000,
+    timeout: process.env.E2E_PRODUCTION === "1" ? 240_000 : 120_000,
   },
 });

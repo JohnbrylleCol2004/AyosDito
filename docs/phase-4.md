@@ -103,4 +103,4 @@ The Phase 4 browser scenario additionally needs all migrations and both demo acc
 | `scripts/cleanup-evidence.mjs`                           | Bounded trusted cleanup of interrupted uploads.                                                |
 | Migrations 006–008                                       | Storage permission/reservation rules, publication, confirmations, notifications and analytics. |
 
-No Phase 5 work, deployment or external messaging has been performed.
+This document records Phase 4. Subsequent release checks and deployment preparation are documented in [Phase 5](phase-5.md). No public deployment or external messaging has been performed.

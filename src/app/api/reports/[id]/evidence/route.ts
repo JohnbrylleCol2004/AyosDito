@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { isUuid } from "@/lib/validations/reports";
 import { EvidenceError, prepareEvidence } from "@/lib/evidence/image";
 import { uploadPreparedEvidence } from "@/lib/evidence/storage";
+import { hasSameOrigin } from "@/lib/evidence/origin";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -41,7 +42,9 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  if (request.headers.get("origin") !== new URL(request.url).origin)
+  if (
+    !hasSameOrigin(request.headers.get("origin"), request.headers.get("host"))
+  )
     return Response.json({ error: "csrf" }, { status: 403 });
   const profile = await currentProfile();
   if (!profile) return Response.json({ error: "permission" }, { status: 401 });

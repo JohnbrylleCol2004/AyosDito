@@ -37,20 +37,12 @@ The real migrations were executed in disposable PostgreSQL. Supabase-owned Auth/
 
 Independent review found a cleanup grace/retry problem during development. It was fixed before any Phase 4 migration was applied: cancellation now records its own timestamp; cleanup waits 20 minutes from cancellation; retries retain completed batch members while allocating fresh paths for cancelled members. Follow-up review reported no remaining Critical or Important issues.
 
-## Hosted prerequisites still pending
+## Hosted verification completed during Phase 5
 
-Read-only probes confirmed the existing server key can access the private `report-photos` bucket. A production-client-bundle scan did not find the server secret value.
+On November 23, 2026, read-only hosted probes confirmed evidence, engagement and analytics RPC availability (migrations 006–008 applied). The targeted live Phase 4 Edge scenario then passed: `1 passed (53.9s)`.
 
-The final hosted schema probe returned:
+It exercised real Auth, Storage, RPCs and browser forms using synthetic images and fictional reports: resident three-photo limit, WebP/EXIF stripping, unauthorized reads and raw writes denied, forbidden resolution uploads, safe public moderation, concurrent duplicate confirmations, unconfirmation, official resolution evidence, private notification read/mark-all, analytics, bilingual persistence and responsive widths. Its temporary resident/report were cleaned up and the main fictional issue unpublished.
 
-```text
-evidenceReady: false
-engagementReady: false
-analyticsReady: false
-```
+The first hosted run exposed a valid-upload CSRF rejection caused by Next Proxy's internal request URL hostname. Phase 5 compares the browser Origin authority against incoming Host, with foreign/absent-origin regression coverage. A premature notification assertion now waits for the asynchronous server action to commit.
 
-Therefore migrations 006, 007 and 008 still need to be applied in Supabase. The full Phase 4 live browser/API scenario was prepared but **not executed**, and no live upload/community/confirmation/notification success is claimed for this delivery state. Do not interpret the 23 local tests as hosted Storage verification.
-
-After migration setup, run `npm.cmd run test:e2e` to execute the full suite. The Phase 4 case creates fictional test content and a temporary second resident, tests private uploads/public moderation/concurrent confirmation/inbox behavior, then unpublishes its issue and cleans the temporary account/report. Existing Phase 1–3 suites also create their documented fictional fixtures.
-
-See `docs/phase-4.md` for migration order, the server-only evidence key, cleanup command, upload host-size requirements and remaining limitations. No deployment or Phase 5 work was performed.
+See [Phase 5 release verification](phase-5-verification.md) for the full production-mode suite and current deployment status. Local checks and this hosted test do not verify a public hosting provider's upload/CDN limits.

@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { X } from "lucide-react";
 import type { EvidenceDictionary } from "@/lib/i18n/evidence";
 
@@ -13,6 +19,9 @@ export interface EvidencePickerProps {
 }
 
 const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp"]);
+const subscribe = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
 
 function PhotoPreview({ file, alt }: { file: File; alt: string }) {
   const image = useRef<HTMLImageElement>(null);
@@ -34,6 +43,9 @@ export function EvidencePicker({
   t,
 }: EvidencePickerProps) {
   const id = useId();
+  // A file change before hydration cannot be replayed reliably. Keep the picker
+  // disabled until its preview/validation handlers can receive the selection.
+  const hydrated = useSyncExternalStore(subscribe, clientReady, serverReady);
   const [error, setError] = useState<
     "fileCount" | "fileType" | "fileSize" | null
   >(null);
@@ -49,7 +61,7 @@ export function EvidencePicker({
         type="file"
         accept="image/jpeg,image/png,image/webp"
         multiple
-        disabled={disabled || files.length >= limit}
+        disabled={!hydrated || disabled || files.length >= limit}
         aria-describedby={`${id}-hint${error ? ` ${id}-error` : ""}`}
         aria-invalid={!!error}
         onChange={(event) => {
