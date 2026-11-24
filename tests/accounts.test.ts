@@ -88,3 +88,50 @@ test("member review accepts only typed decisions and bounded notes", () => {
   form.set("note", "x".repeat(1001));
   assert.equal(parseMemberReview(form), null);
 });
+
+test("email URLs use Vercel's production domain when SITE_URL is absent, never preview hosts", () => {
+  assert.equal(
+    canonicalSiteUrl({
+      NODE_ENV: "production",
+      VERCEL_PROJECT_PRODUCTION_URL: "ayosdito.vercel.app",
+    }),
+    "https://ayosdito.vercel.app",
+  );
+  assert.equal(
+    canonicalSiteUrl({
+      NODE_ENV: "production",
+      SITE_URL: "https://custom.example",
+      VERCEL_PROJECT_PRODUCTION_URL: "ayosdito.vercel.app",
+    }),
+    "https://custom.example",
+  );
+  assert.equal(
+    canonicalSiteUrl({
+      NODE_ENV: "production",
+      SITE_URL: "  ",
+      VERCEL_PROJECT_PRODUCTION_URL: "ayosdito.vercel.app",
+    }),
+    "https://ayosdito.vercel.app",
+  );
+  assert.equal(
+    canonicalSiteUrl({
+      NODE_ENV: "production",
+      VERCEL_URL: "preview.vercel.app",
+    }),
+    null,
+  );
+  for (const host of [
+    "evil.example/path",
+    "user@evil.example",
+    "evil.example?next=elsewhere",
+    "https://evil.example",
+    "//evil.example",
+  ])
+    assert.equal(
+      canonicalSiteUrl({
+        NODE_ENV: "production",
+        VERCEL_PROJECT_PRODUCTION_URL: host,
+      }),
+      null,
+    );
+});

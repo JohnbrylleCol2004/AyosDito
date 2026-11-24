@@ -6,6 +6,8 @@ Features include bilingual reporting/admin tracking, private validated evidence,
 
 PWA support adds installable Android/Windows web-app metadata, branded icons, English/Filipino installation guidance at `/install`, and a public offline connection screen. See [installation and redeployment](docs/pwa.md). Internet is required for account/report operations; private data is not cached by the service worker.
 
+The service-operations update adds real resident registration with admin approval, assignments and target dates, overdue follow-through, feedback/reopen review, duplicate links, monthly CSV/PDF exports, optional privacy-separated map pins, authenticated live updates and opt-in push infrastructure. Apply new migrations009–012 and configure email/push delivery before deployment: [setup and acceptance](docs/service-operations.md), [verification evidence](docs/service-operations-verification.md).
+
 ## 1. Run locally
 
 Install Node.js **22.18 or newer** (a supported LTS version is recommended), then open PowerShell:

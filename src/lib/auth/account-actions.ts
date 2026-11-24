@@ -11,6 +11,7 @@ import {
 } from "./accounts";
 import { parseCredentials } from "./rules";
 import { requireProfile } from "./session";
+import { finishRegistration } from "./registration-lifecycle";
 export type AccountState = {
   error?:
     | "email"
@@ -35,7 +36,7 @@ export async function registerResident(
     const supabase = await createClient();
     const ready = await supabase.rpc("registration_ready");
     if (ready.error || ready.data !== true) return { error: "setup" };
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: parsed.email,
       password: parsed.password,
       options: {
@@ -50,7 +51,7 @@ export async function registerResident(
       error.code !== "email_exists"
     )
       return { error: "error" };
-    await supabase.auth.signOut({ scope: "local" });
+    await finishRegistration(supabase.auth, data.session);
     return { success: true };
   } catch {
     return { error: "error" };

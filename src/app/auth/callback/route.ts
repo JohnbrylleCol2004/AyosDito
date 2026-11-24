@@ -11,9 +11,15 @@ export async function GET(request: Request) {
       { status: 503 },
     );
   const code = url.searchParams.get("code");
+  const flowId = url.searchParams.get("flow_id");
+  if (flowId && !/^[A-Za-z0-9_-]{8,64}$/.test(flowId))
+    redirect(`${origin}/auth/link-error`);
   if (code) {
     const client = await createClient();
-    const { error } = await client.auth.exchangeCodeForSession(code);
+    const { error } = await client.auth.exchangeCodeForSession(
+      code,
+      flowId ? { flowId } : undefined,
+    );
     if (!error)
       redirect(`${origin}${safeAuthNext(url.searchParams.get("next"))}`);
   }

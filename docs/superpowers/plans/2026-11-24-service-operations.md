@@ -23,11 +23,13 @@
 
 ## Execution and verification
 
-- [ ] Read Impeccable, inspect baseline and establish shared API contracts.
-- [ ] Implement/test operations migration/RPCs/widgets.
-- [ ] Implement/test real registration, approval database enforcement and admin review.
-- [ ] Refine interface/contrast and inspect mobile/desktop visuals.
-- [ ] Implement/test exports, optional map/location, push infrastructure and real-time refresh.
-- [ ] Apply or provide new hosted migrations; run live checks only where dependencies are actually available.
-- [ ] Full formatting/lint/types/local tests/production build, targeted browser checks, independent final security/quality review.
-- [ ] Document environment/setup, deployment, evidence and any external prerequisites honestly.
+- [x] Read Impeccable, inspect baseline and establish shared API contracts.
+- [x] Implement/test operations migration/RPCs/widgets.
+- [x] Implement/test real registration, approval database enforcement and admin review.
+- [x] Refine interface/contrast and inspect mobile/desktop visuals.
+- [x] Implement/test exports, optional map/location, push infrastructure and real-time refresh.
+- [x] Apply or provide new hosted migrations; run live checks only where dependencies are actually available.
+- [x] Full formatting/lint/types/local tests/production build, targeted browser checks, independent final security/quality review.
+- [x] Document environment/setup, deployment, evidence and any external prerequisites honestly.
+
+Final evidence: hosted009?012 verified; full local release gate and production browser suite passed (66 local tests,16 Edge passes,2 expected skips). See docs/service-operations-verification.md. Actual SMTP/push device delivery and publication of the final code remain explicit deployment acceptance steps.

@@ -102,7 +102,7 @@ test("resident submits, retries, searches and tracks a real report bilingually",
       .getByRole("button", { name: "Submit report", exact: true })
       .click();
     await expect(page).toHaveURL(/\/reports\/[0-9a-f-]+\?submitted=1$/);
-    await expect(page.getByRole("status")).toContainText(
+    await expect(page.locator(".success-banner[role=status]")).toContainText(
       "Your report was submitted",
     );
     await expect(

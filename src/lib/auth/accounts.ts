@@ -40,9 +40,23 @@ export function safeAuthNext(value: unknown) {
 export function canonicalSiteUrl(
   env: Record<string, string | undefined> = process.env,
 ) {
+  const explicit = env.SITE_URL?.trim();
+  const productionHost = env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  // Trusted deployment configuration only: never infer email destinations from
+  // Origin/Host/forwarded headers or an ephemeral preview deployment URL.
+  if (
+    !explicit &&
+    productionHost &&
+    !/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/i.test(productionHost)
+  )
+    return null;
   const value =
-    env.SITE_URL ||
-    (env.NODE_ENV !== "production" ? "http://localhost:3000" : "");
+    explicit ||
+    (productionHost
+      ? `https://${productionHost}`
+      : env.NODE_ENV !== "production"
+        ? "http://localhost:3000"
+        : "");
   try {
     const url = new URL(value);
     if (

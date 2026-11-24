@@ -575,9 +575,17 @@ test("Phase 4 evidence, moderated summaries, confirmations and private notificat
       }),
     ).toBeVisible();
     await adminPage.goto(`/admin/reports/${reportId}`);
+    const unpublication = adminPage.waitForResponse(
+      (response) =>
+        response.request().method() === "POST" &&
+        new URL(response.url()).pathname === `/admin/reports/${reportId}`,
+    );
     await adminPage
       .getByRole("button", { name: "Remove from public board", exact: true })
       .click();
+    const unpublicationResponse = await unpublication;
+    expect(unpublicationResponse.status()).toBe(200);
+    await unpublicationResponse.finished();
     await expect(
       adminPage.getByText("Not published", { exact: true }),
     ).toBeVisible();

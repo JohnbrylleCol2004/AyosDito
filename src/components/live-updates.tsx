@@ -36,6 +36,14 @@ export function LiveUpdates({
     };
     const channel = db
       .channel(`private-updates-${admin ? "admin" : "resident"}-${userId}`)
+      .on("system", {}, (payload: { extension?: string; status?: string }) => {
+        if (!active || payload.extension !== "postgres_changes") return;
+        const ready = payload.status === "ok";
+        setLive(ready);
+        // Channel join can finish before PostgreSQL replication is listening.
+        // Reconcile changes that may have committed during that startup window.
+        if (ready) schedule();
+      })
       .on(
         "postgres_changes",
         {
@@ -56,11 +64,19 @@ export function LiveUpdates({
         },
         schedule,
       );
-    channel.subscribe((status) => {
-      if (active) {
-        setLive(status === "SUBSCRIBED");
-        if (status === "SUBSCRIBED") schedule();
-      }
+    // SSR sign-in writes cookies before the browser SDK finishes initialization.
+    // Authenticate the socket explicitly before joining; an anonymous first join
+    // cannot subscribe to this private table and will not receive its updates.
+    void (async () => {
+      const { data, error } = await db.auth.getSession();
+      if (!active || error || !data.session) return;
+      await db.realtime.setAuth(data.session.access_token);
+      if (!active) return;
+      channel.subscribe((status) => {
+        if (active && status !== "SUBSCRIBED") setLive(false);
+      });
+    })().catch(() => {
+      if (active) setLive(false);
     });
     // Focus/interval recovery covers offline/reconnect and providers with Realtime disabled.
     const interval = setInterval(schedule, 30_000);

@@ -21,7 +21,7 @@ In the existing Supabase project's SQL Editor, apply only these new files in ord
 3. `supabase/migrations/202611240011_push_realtime.sql`
 4. `supabase/migrations/202611240012_live_event_privacy.sql`
 
-Do not rerun Phase 1–4 migrations. Files 009–012 create new structures/functions and 010 preserves existing accounts as approved. The fourth file also hardens earlier011 rollouts. The registration action refuses to call Auth sign-up until the final registration-readiness RPC is present, preventing users created against an old schema from bypassing approval during deployment.
+Do not rerun Phase 1–4 migrations. Files 009–012 create new structures/functions and 010 preserves existing accounts as approved. The fourth file also hardens earlier011 rollouts. The application's registration action refuses to call Auth sign-up until the final registration-readiness RPC is present. Direct Supabase sign-up is governed by the database trigger from migration010, so applying the SQL before deployment remains essential.
 
 For Realtime, the normal Supabase `supabase_realtime` publication must exist. Migration012 adds only `live_events` and removes these app's private profile/report/workflow tables if they were previously published. It preserves unrelated publication tables/settings. If Realtime is disabled or the publication is absent, focus/interval refresh still works; do not call that a verified live subscription.
 
@@ -29,13 +29,17 @@ If a newly created RPC returns `PGRST202` after successful SQL application, relo
 
 ## Real resident accounts
 
-Set `SITE_URL=https://ayosdito.vercel.app` in Vercel production environment variables (or your actual canonical HTTPS domain). It is a fixed trusted email destination, never derived from arbitrary forwarded headers. Configure Supabase Auth:
+Set `SITE_URL=https://ayosdito.vercel.app` in Vercel production environment variables (or your actual canonical HTTPS domain). When it is absent, the app can use Vercel's system `VERCEL_PROJECT_PRODUCTION_URL` (HTTPS added automatically), never an ephemeral preview URL or arbitrary request/forwarded headers. Local `.env.local` now has the canonical URL configured. Configure Supabase Auth:
 
 - Allow email/password sign-ups; use email confirmation for the recommended verified-email workflow.
 - Set the Auth Site URL to the same canonical site and allow `/auth/callback` and `/auth/callback?next=/auth/reset-password` redirect URLs there. A token-hash `/auth/confirm` route is also supported for customized templates.
 - Configure and test production SMTP, sender address, rate limits and recovery emails. No email-provider setting was changed by this implementation.
 
-A resident signs up with name, zone, email, matching passwords of 12–128 characters, confirms email when required, and signs in to the pending screen. An existing approved administrator opens **Resident approvals** and approves/rejects with an optional internal note. The pending page listens for its own update and refreshes into the appropriate state; a refresh control/fallback remains available.
+For same-browser PKCE callbacks, the app preserves the signup verifier until confirmation and forwards the SDK's `flow_id` when present. For confirmation links that should work in a different browser/device, use Supabase email templates pointing at the supported token-hash route, for example confirmation `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email` and recovery `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=recovery`. Add your own site's auth paths to the Supabase redirect allowlist. Actual SMTP delivery must still be tested.
+
+Send production email flows from the deployed canonical site. If deliberately testing email links on localhost or a preview, configure that environment's explicit `SITE_URL` and matching Supabase allowlist; a PKCE verifier cookie on localhost cannot be read on the production domain. The production-domain fallback is not a promise of cross-origin cookie sharing.
+
+A resident signs up with name, zone, email, matching passwords of 12–128 characters, confirms email when required, and signs in to the pending screen. An existing approved administrator opens **Resident approvals** and approves/rejects with an optional resident-visible review note. The pending page listens for its own update and refreshes into the appropriate state; a refresh control/fallback remains available. “Live updates” appears only after the PostgreSQL listener reports ready, not merely after the browser channel joins; a refresh at that point reconciles startup-window changes.
 
 Residents cannot request an admin role. Trusted admin provisioning remains separate. Existing demo accounts are still useful as test fixtures but are no longer the only account flow. Do not publish fixture passwords or the server key.
 

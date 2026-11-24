@@ -82,8 +82,9 @@ test("live approval, private operations, public pins and reopen history work tog
     expect((await resident.rpc("create_report", input)).error).not.toBeNull();
     await login(page, email, password);
     await expect(page).toHaveURL(/\/account-pending$/);
+    await page.bringToFront();
     await expect(page.getByText("Live updates", { exact: true })).toBeVisible({
-      timeout: 15000,
+      timeout: 30000,
     });
     await login(
       adminPage,
@@ -95,9 +96,23 @@ test("live approval, private operations, public pins and reopen history work tog
     const member = adminPage
       .locator("section.operations-panel")
       .filter({ has: adminPage.getByRole("heading", { name, exact: true }) });
+    await page.bringToFront();
     await member
       .getByRole("button", { name: "Approve resident", exact: true })
       .click();
+    await expect
+      .poll(
+        async () =>
+          (
+            await resident
+              .from("profiles")
+              .select("approval_status")
+              .eq("id", userId!)
+              .single()
+          ).data?.approval_status,
+      )
+      .toBe("approved");
+    expect(await page.evaluate(() => document.visibilityState)).toBe("visible");
     // This must beat the30-second polling interval: exercise actual Realtime approval.
     await expect(page).toHaveURL(/\/dashboard$/, { timeout: 20000 });
     const created = await resident.rpc("create_report", input);
@@ -287,15 +302,23 @@ test("live approval, private operations, public pins and reopen history work tog
       page.getByText("PRIVATE internal fixture note", { exact: true }),
     ).toHaveCount(0);
   } finally {
-    if (reports.length)
-      await trusted
+    const cleanupErrors: string[] = [];
+    if (reports.length) {
+      const cleanup = await trusted
         .from("reports")
         .delete()
         .in("id", reports)
         .eq("reporter_id", userId!);
-    if (userId) await trusted.auth.admin.deleteUser(userId);
+      if (cleanup.error)
+        cleanupErrors.push(`report cleanup: ${cleanup.error.code}`);
+    }
+    if (userId) {
+      const cleanup = await trusted.auth.admin.deleteUser(userId);
+      if (cleanup.error) cleanupErrors.push("account cleanup failed");
+    }
     await context.close();
     await resident.auth.signOut({ scope: "local" });
     await admin.auth.signOut({ scope: "local" });
+    expect(cleanupErrors).toEqual([]);
   }
 });

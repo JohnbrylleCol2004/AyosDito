@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfig } from "@/lib/supabase/config";
@@ -13,7 +14,7 @@ export type Profile = {
   approval_status: ApprovalStatus;
 };
 
-export async function currentProfile(): Promise<Profile | null> {
+export const currentProfile = cache(async (): Promise<Profile | null> => {
   if (!supabaseConfig()) return null;
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getClaims();
@@ -35,7 +36,7 @@ export async function currentProfile(): Promise<Profile | null> {
   )
     redirect("/account-unavailable");
   return profile as Profile;
-}
+});
 
 export async function requireProfile(role?: Role) {
   if (!supabaseConfig()) redirect("/setup");
