@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { AdminReport } from "@/lib/queries/admin-reports";
 import type { Dictionary, Locale } from "@/lib/i18n/dictionaries";
 import { ReportStatusBadge } from "@/components/reports/report-status-badge";
-import { formatReportDate } from "@/components/reports/report-card";
+import { formatReportDate } from "@/lib/format";
 
 export function AdminReportTable({
   reports,

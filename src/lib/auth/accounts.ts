@@ -1,4 +1,5 @@
 import { parseCredentials } from "./rules.ts";
+import { isUuid } from "../validations/reports.ts";
 
 export type ApprovalStatus = "pending" | "approved" | "rejected";
 export function homeForProfile(profile: {
@@ -80,9 +81,7 @@ export function parseMemberReview(form: FormData) {
     note = form.get("note");
   if (
     typeof id !== "string" ||
-    !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
-      id,
-    ) ||
+    !isUuid(id) ||
     (decision !== "approve" && decision !== "reject") ||
     typeof note !== "string" ||
     [...note.trim()].length > 1000

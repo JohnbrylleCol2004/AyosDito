@@ -4,14 +4,7 @@ import type { ReportSummary } from "@/lib/queries/reports";
 import type { ReportsDictionary } from "@/lib/i18n/reports";
 import type { Locale } from "@/lib/i18n/dictionaries";
 import { ReportStatusBadge } from "./report-status-badge";
-
-export function formatReportDate(value: string, locale: Locale, time = false) {
-  return new Intl.DateTimeFormat(locale === "fil" ? "fil-PH" : "en-PH", {
-    dateStyle: "medium",
-    ...(time ? { timeStyle: "short" as const } : {}),
-    timeZone: "Asia/Manila",
-  }).format(new Date(value));
-}
+import { formatReportDate } from "@/lib/format";
 
 export function ReportCard({
   report,

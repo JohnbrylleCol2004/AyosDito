@@ -80,6 +80,6 @@ export async function getNotifications(page = 1, limit = 12) {
     unread: unread.count ?? 0,
     total,
     page: actualPage,
-    error: !!(inbox.error || unread.error),
+    error: !!inbox.error,
   };
 }

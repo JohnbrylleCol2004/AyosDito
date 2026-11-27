@@ -87,6 +87,23 @@ test("member review accepts only typed decisions and bounded notes", () => {
   form.set("decision", "reject");
   form.set("note", "x".repeat(1001));
   assert.equal(parseMemberReview(form), null);
+  form.set("note", "");
+  for (const id of [
+    "11111111-1111-4111-8111-111111111111",
+    "ABCDEF01-2345-6789-ABCD-EF0123456789",
+    "00000000-0000-0000-0000-000000000000",
+  ]) {
+    form.set("user_id", id);
+    assert.deepEqual(parseMemberReview(form), {
+      p_user_id: id,
+      p_approved: false,
+      p_note: null,
+    });
+  }
+  for (const id of ["invalid", "-".repeat(36), "1".repeat(36)]) {
+    form.set("user_id", id);
+    assert.equal(parseMemberReview(form), null);
+  }
 });
 
 test("email URLs use Vercel's production domain when SITE_URL is absent, never preview hosts", () => {

@@ -43,27 +43,19 @@ export function LiveUpdates({
         // Channel join can finish before PostgreSQL replication is listening.
         // Reconcile changes that may have committed during that startup window.
         if (ready) schedule();
-      })
-      .on(
+      });
+    for (const event of ["INSERT", "UPDATE"] as const) {
+      channel.on(
         "postgres_changes",
         {
-          event: "INSERT",
-          schema: "public",
-          table: "live_events",
-          filter: `recipient_id=eq.${userId}`,
-        },
-        schedule,
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
+          event,
           schema: "public",
           table: "live_events",
           filter: `recipient_id=eq.${userId}`,
         },
         schedule,
       );
+    }
     // SSR sign-in writes cookies before the browser SDK finishes initialization.
     // Authenticate the socket explicitly before joining; an anonymous first join
     // cannot subscribe to this private table and will not receive its updates.
@@ -94,9 +86,7 @@ export function LiveUpdates({
   return (
     <span className="live-status" role="status">
       {live
-        ? locale === "fil"
-          ? "Live updates"
-          : "Live updates"
+        ? "Live updates"
         : locale === "fil"
           ? "Regular na ina-update"
           : "Updates checked regularly"}

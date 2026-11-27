@@ -10,7 +10,7 @@ import { isUuid, parseReportFilters } from "@/lib/validations/reports";
 import { AppShell } from "@/components/app-shell";
 import { ReportStatusBadge } from "@/components/reports/report-status-badge";
 import { ReportTimeline } from "@/components/reports/report-timeline";
-import { formatReportDate } from "@/components/reports/report-card";
+import { formatReportDate } from "@/lib/format";
 import { StatusUpdateForm } from "@/components/admin/status-update-form";
 import { EvidenceSection } from "@/components/evidence-section";
 import { ModerationPanel } from "@/components/engagement/moderation-panel";

@@ -3,6 +3,7 @@ import { getLanguage } from "@/lib/i18n/server";
 import { enOperations, filOperations } from "@/lib/i18n/operations";
 import { getOperations, getOperationsSummary } from "@/lib/queries/operations";
 import { OperationsForm } from "./operations-form";
+import { formatReportDate } from "@/lib/format";
 export async function OperationsPanel({
   reportId,
   admin,
@@ -125,14 +126,7 @@ export async function OperationsPanel({
               {data.notes.map((n) => (
                 <li key={n.id}>
                   <time dateTime={n.created_at}>
-                    {new Intl.DateTimeFormat(
-                      locale === "fil" ? "fil-PH" : "en-PH",
-                      {
-                        dateStyle: "medium",
-                        timeStyle: "short",
-                        timeZone: "Asia/Manila",
-                      },
-                    ).format(new Date(n.created_at))}
+                    {formatReportDate(n.created_at, locale, true)}
                   </time>
                   <p style={{ whiteSpace: "pre-wrap" }}>{n.note}</p>
                 </li>

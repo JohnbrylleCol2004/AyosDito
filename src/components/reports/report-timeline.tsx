@@ -3,7 +3,7 @@ import type { Report, ReportUpdate } from "@/types/reports";
 import type { ReportsDictionary } from "@/lib/i18n/reports";
 import type { Locale } from "@/lib/i18n/dictionaries";
 import { ReportStatusBadge } from "./report-status-badge";
-import { formatReportDate } from "./report-card";
+import { formatReportDate } from "@/lib/format";
 
 export function ReportTimeline({
   report,
